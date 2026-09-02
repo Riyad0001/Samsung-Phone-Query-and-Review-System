@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Samsung Phone System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Samsung Phone Query & Review System</h1>
+        <nav>
+            <button class="tab active" data-tab="dashboard">Dashboard</button>
+            <button class="tab" data-tab="compare">Compare</button>
+            <button class="tab" data-tab="chat">Ask AI</button>
+            <button class="tab" data-tab="review">Reviews</button>
+        </nav>
+    </header>
+
+    <main>
+        <!-- DASHBOARD TAB -->
+        <section id="dashboard" class="tab-content active">
+            <div class="toolbar">
+                <h2>All Phones (<span id="phone-count">0</span>)</h2>
+                <div class="actions">
+                    <button class="btn btn-primary" id="btn-scrape" onclick="scrapeData()">Scrape GSMArena</button>
+                    <button class="btn btn-secondary" onclick="seedData()">Seed Database</button>
+                    <button class="btn btn-refresh" onclick="loadPhones()">Refresh</button>
+                    <button class="btn btn-danger" onclick="deleteAllPhones()">Delete All</button>
+                </div>
+            </div>
+            <input type="text" id="search-input" placeholder="Search phones..." oninput="filterTable()">
+            <div id="table-wrapper">
+                <table id="phone-table">
+                    <thead>
+                        <tr>
+                            <th data-sort="name">Phone</th>
+                            <th data-sort="display_size">Display</th>
+                            <th data-sort="processor">Processor</th>
+                            <th data-sort="ram">Memory</th>
+                            <th data-sort="battery">Battery</th>
+                            <th data-sort="main_camera">Camera</th>
+                            <th data-sort="price">Price</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="phone-tbody"></tbody>
+                </table>
+            </div>
+            <p id="loading-text">Loading phones...</p>
+        </section>
+
+        <!-- COMPARE TAB -->
+        <section id="compare" class="tab-content">
+            <h2>Compare Samsung Phones</h2>
+            <div class="compare-controls">
+                <div class="compare-select">
+                    <label>Phone 1</label>
+                    <select id="compare-phone1"></select>
+                </div>
+                <div class="compare-select">
+                    <label>Phone 2</label>
+                    <select id="compare-phone2"></select>
+                </div>
+                <button class="btn btn-primary" onclick="comparePhones()">Compare</button>
+            </div>
+            <div id="compare-result"></div>
+        </section>
+
+        <!-- CHAT TAB -->
+        <section id="chat" class="tab-content">
+            <h2>Ask a Question</h2>
+            <div class="chat-controls">
+                <input type="text" id="chat-input" placeholder="e.g. Camera specs of Galaxy S23" onkeydown="if(event.key==='Enter')askQuery()">
+                <button class="btn btn-primary" onclick="askQuery()">Ask</button>
+            </div>
+            <div class="quick-queries">
+                <span onclick="quickQuery('Camera specs of Galaxy S23')">Galaxy S23 Camera</span>
+                <span onclick="quickQuery('Best battery life')">Best Battery</span>
+                <span onclick="quickQuery('Compare Galaxy S24 and S23')">S24 vs S23</span>
+                <span onclick="quickQuery('List all phones')">List All</span>
+                <span onclick="quickQuery('Tell me about Galaxy Z Fold5')">Z Fold5</span>
+            </div>
+            <div id="chat-result" class="result-box"></div>
+        </section>
+
+        <!-- REVIEW TAB -->
+        <section id="review" class="tab-content">
+            <h2>Multi-Agent Reviews</h2>
+            <div class="chat-controls">
+                <input type="text" id="review-input" placeholder="e.g. Review Galaxy S24 Ultra" onkeydown="if(event.key==='Enter')getReview()">
+                <button class="btn btn-primary" onclick="getReview()">Generate Review</button>
+            </div>
+            <div id="review-result" class="result-box"></div>
+        </section>
+    </main>
+
+    <div id="toast"></div>
+    <script src="script.js"></script>
+</body>
+</html>
